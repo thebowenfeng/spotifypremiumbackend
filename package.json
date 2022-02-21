@@ -13,6 +13,8 @@
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11",
     "puppeteer": "13.3.2",
-    "youtube-mp3-converter": "^1.0.3"
+    "youtube-mp3-converter": "^1.0.3",
+    "jsdom": "^19.0.0",
+    "youtube-search-without-api-key": "^1.0.7"
   }
 }

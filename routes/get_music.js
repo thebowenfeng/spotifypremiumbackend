@@ -4,6 +4,10 @@ var router = express.Router();
 const puppeteer = require('puppeteer')
 var downloader = require('youtube-mp3-converter')
 var fs = require('fs')
+const {JSDOM} = require('jsdom')
+const { window } = new JSDOM()
+
+const yt = require('youtube-search-without-api-key')
 
 async function getVideoID(videoName){
   if(videoName == null || videoName === ""){
@@ -21,13 +25,25 @@ async function getVideoID(videoName){
   })
 }
 
+async function getVideoIDNew(videoName){
+  if(videoName == null || videoName === ""){
+    throw new Error("Video name not specified")
+  }
+
+  const videos = await yt.search(videoName)
+  return videos[0].id.videoId;
+}
+
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
   let videoName = req.query.name
 
   try{
-    var videoID = await getVideoID(videoName)
+    const start = window.performance.now()
+    var videoID = await getVideoIDNew(videoName)
+    const end = window.performance.now()
+    console.log(`Time Taken to execute = ${(end - start)/1000} seconds`)
     const yt = downloader("C:/Users/85751/Desktop/Projects/freespotifybackend/music")
     const path = await yt(`https://www.youtube.com/watch?v=${videoID}`)
 
