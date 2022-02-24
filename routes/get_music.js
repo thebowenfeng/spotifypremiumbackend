@@ -31,7 +31,15 @@ async function getVideoIDNew(videoName){
   }
 
   const videos = await yt.search(videoName)
-  return videos[0].id.videoId;
+
+  for(var i = 0; i < videos.length; i++){
+    var obj = videos[i]
+    var length = obj.duration_raw.split(":")
+    if(length.length < 3 && parseInt(length[0]) < 10){
+      console.log(obj)
+      return obj.id.videoId;
+    }
+  }
 }
 
 
